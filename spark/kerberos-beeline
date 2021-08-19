@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+# Enter posix mode for bash
+set -o posix
+
+# Figure out if SPARK_HOME is set
+if [ -z "${SPARK_HOME}" ]; then
+  source "$(dirname "$0")"/find-spark-home
+fi
+
+CLASS="org.apache.hive.beeline.KerberosBeeLine"
+exec "${SPARK_HOME}/bin/spark-class" $CLASS "$@"
