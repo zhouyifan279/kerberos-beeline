@@ -42,7 +42,13 @@ public class KerberosBeeLine {
         conf.set("hadoop.security.authentication", "kerberos");
         UserGroupInformation.setConfiguration(conf);
         UserGroupInformation.loginUserFromKeytab(principal, keytab);
-        BeeLine.main(new String[]{"-u", jdbcUrl});
+
+        String[] finalArgs = new String[args.length + 2];
+        finalArgs[0] = "-u";
+        finalArgs[1] = jdbcUrl;
+
+        System.arraycopy(args, 0, finalArgs, 2, args.length);
+        BeeLine.main(finalArgs);
     }
 
     static Properties loadFile(String file) throws IOException {
